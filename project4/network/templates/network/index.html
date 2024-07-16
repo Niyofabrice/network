@@ -1,0 +1,33 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<h3 class="mx-3">All Posts</h3>
+<!-- Writting a New Post-->
+{% if user.is_authenticated %}
+    <div class="card p-2 m-3">
+        <form action="{% url 'new-post' %}" method="POST">
+            {% csrf_token %}
+            <h5>New Post</h5>
+            <textarea class="form-control" placeholder="What's happening?" rows="3" name="content" required></textarea>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+
+{% endif %}
+
+
+<!-- All Posts-->
+{% for post in posts %}
+<div class="card p-2 m-3">
+    <h5><a href="{% url 'user-profile' user_id=post.writer.id %}">{{ post.writer }}</a></h5>
+    <p>{{ post.content }}</p>
+    <p>{{ post.timestamp }}</p>
+    <p><i class="fa fa-heart" style="font-size:18px;color:red"></i> {{ post.likes }}</p>
+    {% if post.writer == user %}
+            <a class="icon-link" href="#">Edit</a>
+    {% endif %}
+</div>
+{% endfor %}
+
+
+{% endblock %}

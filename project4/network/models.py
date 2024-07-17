@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    follower = models.ForeignKey('self', on_delete=models.CASCADE, default=None)
 
 
 class Post(models.Model):
@@ -21,3 +21,4 @@ class Post(models.Model):
     
     def __str__(self) -> str:
         return f"{self.writer}-{self.content}"
+    
